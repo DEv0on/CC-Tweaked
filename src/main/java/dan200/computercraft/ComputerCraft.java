@@ -130,6 +130,9 @@ public class ComputerCraft
     public static long httpMaxUpload = 4 * 1024 * 1024;
     public static int httpMaxWebsockets = 4;
     public static int httpMaxWebsocketMessage = 128 * 1024;
+    public static String httpProxyAddress = "127.0.0.1";
+    public static int httpProxyPort = 3128;
+    public static boolean httpProxyEnabled = false;
 
     public static boolean enableCommandBlock = false;
     public static int modem_range = 64;

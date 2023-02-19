@@ -27,6 +27,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
 import io.netty.handler.codec.http.websocketx.WebSocketVersion;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketClientCompressionHandler;
+import io.netty.handler.proxy.HttpProxyHandler;
 import io.netty.handler.ssl.SslContext;
 
 import java.lang.ref.WeakReference;
@@ -161,6 +162,10 @@ public class Websocket extends Resource<Websocket>
                             WebSocketClientCompressionHandler.INSTANCE,
                             new WebsocketHandler( Websocket.this, handshaker )
                         );
+                        if ( ComputerCraft.httpProxyEnabled )
+                        {
+                            p.addFirst( new HttpProxyHandler( new InetSocketAddress( ComputerCraft.httpProxyAddress, ComputerCraft.httpProxyPort ) ) );
+                        }
                     }
                 } )
                 .remoteAddress( socketAddress )

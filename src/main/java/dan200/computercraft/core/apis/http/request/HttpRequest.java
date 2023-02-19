@@ -24,6 +24,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.TooLongFrameException;
 import io.netty.handler.codec.http.*;
+import io.netty.handler.proxy.HttpProxyHandler;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.timeout.ReadTimeoutException;
 import io.netty.handler.timeout.ReadTimeoutHandler;
@@ -179,6 +180,10 @@ public class HttpRequest extends Resource<HttpRequest>
                             new HttpContentDecompressor(),
                             handler
                         );
+                        if ( ComputerCraft.httpProxyEnabled )
+                        {
+                            p.addFirst( new HttpProxyHandler( new InetSocketAddress( ComputerCraft.httpProxyAddress, ComputerCraft.httpProxyPort ) ) );
+                        }
                     }
                 } )
                 .remoteAddress( socketAddress )

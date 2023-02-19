@@ -38,6 +38,7 @@ public final class Config
     private static final String CATEGORY_PERIPHERAL = "peripheral";
     private static final String CATEGORY_TURTLE = "turtle";
 
+
     private static Configuration config;
 
     private static Property computerSpaceLimit;
@@ -64,6 +65,9 @@ public final class Config
     private static Property httpMaxUpload;
     private static Property httpMaxWebsockets;
     private static Property httpMaxWebsocketMessage;
+    private static Property httpProxyEnabled;
+    private static Property httpProxyAddress;
+    private static Property httpProxyPort;
 
     private static Property commandBlockEnabled;
     private static Property modemRange;
@@ -227,10 +231,21 @@ public final class Config
             httpMaxWebsocketMessage.setMinValue( 0 );
             httpMaxWebsocketMessage.setMaxValue( Websocket.MAX_MESSAGE_SIZE );
 
+            httpProxyEnabled = config.get( CATEGORY_HTTP, "http_proxy_enabled", ComputerCraft.httpProxyEnabled );
+            httpProxyEnabled.setComment( "Value used to enable traffic forwarding via proxy" );
+
+            httpProxyAddress = config.get( CATEGORY_HTTP, "http_proxy_address", ComputerCraft.httpProxyAddress );
+            httpProxyAddress.setComment( "Address used to forward all traffic via proxy" );
+
+            httpProxyPort = config.get( CATEGORY_HTTP, "http_proxy_port", ComputerCraft.httpProxyPort );
+            httpProxyPort.setComment( "Port used to forward all traffic via proxy" );
+
+
             setOrder(
                 CATEGORY_HTTP,
                 httpEnable, httpWebsocketEnable, httpAllowedDomains, httpBlockedDomains,
-                httpTimeout, httpMaxRequests, httpMaxDownload, httpMaxUpload, httpMaxWebsockets, httpMaxWebsocketMessage
+                httpTimeout, httpMaxRequests, httpMaxDownload, httpMaxUpload, httpMaxWebsockets, httpMaxWebsocketMessage,
+                httpProxyEnabled, httpProxyAddress, httpProxyPort
             );
         }
 
@@ -477,6 +492,9 @@ public final class Config
         ComputerCraft.httpMaxUpload = Math.max( 0, httpMaxUpload.getLong() );
         ComputerCraft.httpMaxWebsockets = Math.max( 1, httpMaxWebsockets.getInt() );
         ComputerCraft.httpMaxWebsocketMessage = Math.max( 0, httpMaxWebsocketMessage.getInt() );
+        ComputerCraft.httpProxyEnabled = httpProxyEnabled.getBoolean();
+        ComputerCraft.httpProxyAddress = httpProxyAddress.getString();
+        ComputerCraft.httpProxyPort = httpProxyPort.getInt();
 
         // Peripheral
         ComputerCraft.enableCommandBlock = commandBlockEnabled.getBoolean();
